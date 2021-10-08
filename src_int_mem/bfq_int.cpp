@@ -98,6 +98,12 @@ dna_bwt_n_t bwt;//the BWT data structure
 uint64_t freqs[5]{0}; //#occ. of dna symbols in any cluster
 uint64_t lowQS[5]{0}; //bitvector for qs symbols associated with dna symbols in any cluster (if 0 all occ. have low qs)
 
+//maps
+char DNA[5] = {'A','C','G','T','N'};
+#define dna(i) (DNA[i])
+              //A B C D E F G H I J K L M N O P Q R S T U V W X Y
+int ORD[25] = {0,0,1,0,0,0,2,0,0,0,0,0,0,4,0,0,0,0,0,3,0,0,0,0,0};
+#define ord(c) (ORD[c-65])
 
 void help(){
     
