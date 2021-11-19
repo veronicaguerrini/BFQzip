@@ -24,3 +24,19 @@ while to run BFQzip in external memory
 ```sh
 python3 BFQzip_ext.py example/reads.fastq -o output_reads
 ```
+
+#### References:
+
+    *** BFQzip
+    
+    Veronica Guerrini, Felipe A. Louza, Giovanna Rosone
+    Lossy Compressor preserving variant calling through Extended BWT
+    BIOINFORMATICS 2022 (accepted) 
+    13th International Conference on Bioinformatics Models, Methods and Algorithms
+
+---
+<small> Supported by the project Italian MIUR-SIR [CMACBioSeq][240fb5f5] ("_Combinatorial methods for analysis and compression of biological sequences_") grant n.~RBSI146R5L. P.I. Giovanna Rosone</small>
+
+[240fb5f5]: http://pages.di.unipi.it/rosone/CMACBioSeq.html
+
+<small> Supported by the University of Pisa under the ``PRA – Progetti di Ricerca di Ateneo'' (Institutional Research Grants) - Project no. PRA\_2020\-2021\_26 ``Metodi Informatici Integrati per la Biomedica''.
