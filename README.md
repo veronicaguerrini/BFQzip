@@ -39,4 +39,4 @@ python3 BFQzip_ext.py example/reads.fastq -o output_reads
 
 [240fb5f5]: http://pages.di.unipi.it/rosone/CMACBioSeq.html
 
-<small> Supported by the University of Pisa under the ``PRA – Progetti di Ricerca di Ateneo'' (Institutional Research Grants) - Project no. PRA\_2020\-2021\_26 ``Metodi Informatici Integrati per la Biomedica''.
+<small> Supported by the University of Pisa under the "_PRA – Progetti di Ricerca di Ateneo_" (Institutional Research Grants) - Project no. PRA 2020-2021 "_Metodi Informatici Integrati per la Biomedica_".</small>
