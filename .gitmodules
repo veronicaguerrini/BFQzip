@@ -1,9 +1,9 @@
 [submodule "external/egap"]
-  path = external/egap
-  url = https://github.com/felipelouza/egap/
+	path = external/egap
+	url = https://github.com/felipelouza/egap/
 [submodule "external/gsufsort"]
-  path = external/gsufsort
-  url = https://github.com/felipelouza/gsufsort/
+	path = external/gsufsort
+	url = https://github.com/felipelouza/gsufsort
 [submodule "external/libbsc"]
-  path = external/libbsc
-  url = https://github.com/IlyaGrebnov/libbsc.git
+	path = external/libbsc
+	url = https://github.com/IlyaGrebnov/libbsc
