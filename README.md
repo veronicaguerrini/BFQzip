@@ -27,9 +27,33 @@ python3 BFQzip_ext.py example/reads.fastq -o output_reads
 
 #### References:
 
+    *** EBWT
+    
+    Sabrina Mantaci, Antonio Restivo, Giovanna Rosone, Marinella Sciortino,
+    An extension of the Burrows-Wheeler Transform.
+    Theoretical Computer Science (2007) 387(3): 298-312,
+    doi: 10.1016/j.tcs.2007.07.014
+    
+    Markus J. Bauer, Anthony J. Cox, Giovanna Rosone,
+    Lightweight algorithms for constructing and inverting the BWT of string collections. 
+    Theoretical Computer Science (2013) 483: 134-148,
+    doi: 10.1016/j.tcs.2012.02.002
+    
+    *** Positional Clustering
+    
+    Nicola Prezza, Nadia Pisanti, Marinella Sciortino, Giovanna Rosone,
+    SNPs detection by eBWT positional clustering,
+    Algorithms for Molecular Biology (2019) 14(1):3,
+    doi: 10.1186/s13015-019-0137-8
+    
+    Nicola Prezza, Nadia Pisanti, Marinella Sciortino, Giovanna Rosone,
+    Variable-order reference-free variant discovery with the Burrows-Wheeler Transform.
+    BMC Bioinformatics (2020) 21,
+    doi: 10.1186/s12859-020-03586-3
+    
     *** BFQzip
     
-    Veronica Guerrini, Felipe A. Louza, Giovanna Rosone
+    Veronica Guerrini, Felipe A. Louza, Giovanna Rosone,
     Lossy Compressor preserving variant calling through Extended BWT
     BIOINFORMATICS 2022 (accepted) 
     13th International Conference on Bioinformatics Models, Methods and Algorithms
