@@ -265,7 +265,7 @@ def step5b(args, logfile, logfile_name):
     exe = bsc_exe
     for f in args.stream:
         ofile = f+".bsc"
-        command = "{exe} {ifile} {ofile} -T".format(exe=exe, ifile=f, ofile=ofile)
+        command = "{exe} e {ifile} {ofile} -T".format(exe=exe, ifile=f, ofile=ofile)
         print(command)
         execute_command(command, logfile, logfile_name)
         args.output2.append(ofile)
