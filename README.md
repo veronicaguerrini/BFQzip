@@ -39,6 +39,13 @@ python3 BFQzip_ext.py example/reads.fastq -o output_reads
     Theoretical Computer Science (2013) 483: 134-148,
     doi: 10.1016/j.tcs.2012.02.002
     
+    *** QS permutation
+    
+    Lilian Janin, Giovanna Rosone, and Anthony J. Cox: 
+    Adaptive reference-free compression of sequence quality scores. 
+    Bioinformatics (2014) 30 (1): 24-30, 
+    doi: 10.1093/bioinformatics/btt257
+    
     *** Positional Clustering
     
     Nicola Prezza, Nadia Pisanti, Marinella Sciortino, Giovanna Rosone,
