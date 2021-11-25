@@ -2,7 +2,7 @@
 
 We propose the first *lossy* **reference-free** and **assembly-free** compression approach for FASTQ files, which combines both DNA bases and quality score information in the reads to smooth the quality scores and to apply a noise reduction of the bases, while keeping variant calling performance comparable to that with original data.
 
-The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and the **positional clustering** framework, and can be summarized in four main steps:
+The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and the **positional clustering** framework, and it can be summarized in four main steps:
 
 1. data structures building, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
 
@@ -12,11 +12,15 @@ The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and t
 
 4. FASTQ reconstruction and compression.
 
-We present implementations in both internal memory and external memory, which largely differ in steps 2-4.
+Given a FASTQ file containing a collection *S* of reads,...
 
-Step 1 can be performed, indeed, by any tool according to the resources available. For example, [gsufsort](https://github.com/felipelouza/gsufsort) runs in internal memory, while [egap](https://github.com/felipelouza/egap) and [BCR](https://github.com/giovannarosone/BCR_LCP_GSA) run in external memory.
+We present implementations in both internal memory and external memory, which largely differ in steps 2,4.
+Indeed, step 1 can be performed by any tool according to the resources available. For example, [gsufsort](https://github.com/felipelouza/gsufsort) runs in internal memory, while [egap](https://github.com/felipelouza/egap) and [BCR](https://github.com/giovannarosone/BCR_LCP_GSA) run in external memory.
 
-Given a FASTQ file containing a collection *S* of reads, both implementations of step 2 need the ebwt(*S*) (EBWT output string) and qs(*S*) (its associated permutation of quality scores), while the external memory version needs in addition the LCP array, lcp(*S*). The internal memory approach represents ebwt(*S*) via the compressed suffix tree described in [Prezza and Rosone, 2021](https://doi.org/10.1016/j.tcs.2020.11.024), where the lcp(*S*) is deduced from the ebwt(*S*). 
+Both implementations of step 2 need the ebwt(*S*) (EBWT output string) and qs(*S*) (its associated permutation of quality scores), while the external memory version needs in addition the LCP array, lcp(*S*). 
+The internal memory approach represents ebwt(*S*) via the compressed suffix tree described in [Prezza and Rosone, 2021](https://doi.org/10.1016/j.tcs.2020.11.024), where the lcp(*S*) is deduced from the ebwt(*S*). 
+During the FASTQ reconstruction of step 4, the LF-mapping is implemented either in internal memory (via the suffix-tree navigation) or in external memory.
+
 
 ## Install
 
