@@ -4,13 +4,13 @@ We propose the first lossy reference-free and assembly-free compression approach
 
 The strategy is based on the Extended Burrows-Wheeler Transform (EBWT) and positional clustering, and can be summarized in four main steps:
 
-(a) data structures building, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
+   (a) data structures building, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
 
-(b) positional cluster detecting, according to the positions of local minima in the LCP array,
+   (b) positional cluster detecting, according to the positions of local minima in the LCP array,
 
-(c) noise reduction and quality score smoothing, 
+   (c) noise reduction and quality score smoothing, 
 
-(d) FASTQ reconstruction and compression.
+   (d) FASTQ reconstruction and compression.
 
 We present implementations in both internal memory and external memory, which largely differ in steps (b)-(d).
 
