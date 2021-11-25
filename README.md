@@ -2,7 +2,7 @@
 
 We propose the first *lossy* **reference-free** and **assembly-free** compression approach for FASTQ files, which combines both DNA bases and quality score information in the reads to smooth the quality scores and to apply a noise reduction of the bases, while keeping variant calling performance comparable to that with original data.
 
-The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and **positional clustering**, and can be summarized in four main steps:
+The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and the **positional clustering** framework, and can be summarized in four main steps:
 
 1. data structures building, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
 
