@@ -2,7 +2,21 @@
 
 We propose the first lossy reference-free and assembly-free compression approach for FASTQ files, which combines both DNA bases and quality score information in the reads to smooth the quality scores and to apply a noise reduction of the bases, while keeping variant calling performance comparable to that with original data.
 
-The strategy is based on the Extended Burrows-Wheeler Transform (EBWT) and positional clustering, and we present implementations in both internal memory and external memory.
+The strategy is based on the Extended Burrows-Wheeler Transform (EBWT) and positional clustering, and can be summarized in four main steps:
+
+(a) data structures building, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
+
+(b) positional cluster detecting, according to the positions of local minima in the LCP array,
+
+(c) noise reduction and quality score smoothing, 
+
+(d) FASTQ reconstruction and compression.
+
+We present implementations in both internal memory and external memory, which largely differ in steps (b)-(d).
+
+Step (a) can be performed, indeed, by any tool according to the resources available. For example, [gsufsort](https://github.com/felipelouza/gsufsort) runs in internal memory, while [egap](https://github.com/felipelouza/egap) and [BCR](https://github.com/giovannarosone/BCR_LCP_GSA) run in external memory.
+
+Given a FASTQ file containing a collection *S* of reads, both implementations of step (b) need the ebwt(*S*) (EBWT output string) and qs(*S*) (its associated permutation of quality scores), while the external memory version needs in addition the LCP array, lcp(*S*). The internal memory approach represents ebwt(*S*) via the compressed suffix tree described in [Prezza and Rosone, 2021](https://doi.org/10.1016/j.tcs.2020.11.024), where the lcp(*S*) is deduced from the ebwt(*S*). 
 
 ## Install
 
@@ -13,6 +27,11 @@ make
 ```
 
 ## Run
+
+Given in input 
+We propose three different modes to compress FASTQ files by using two well-known compressors: PPMd [https://www.7-zip.org/7z.html] and BSC [http://libbsc.com/].
+
+
 
 Given a string collection in FASTQ format (e.g. example/reads.fastq), to run BFQzip in internal memory
 
