@@ -1,20 +1,20 @@
 # BFQzip
 
-We propose the first *lossy* **reference-free** and **assembly-free** compression approach for FASTQ files, which combines both DNA bases and quality score information in the reads to smooth the quality scores and to apply a noise reduction of the bases, while keeping variant calling performance comparable to that with original data.
+We propose the first **lossy** **reference-free** and **assembly-free** compression approach for FASTQ files, which combines both DNA bases and quality score information in the reads to smooth the quality scores and to apply a noise reduction of the bases, while keeping variant calling performance comparable to that with original data.
 
 The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and the **positional clustering** framework, and it can be summarized in four main steps:
 
-1. data structures building, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
+1. *data structures building*, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
 
-2. positional cluster detecting, according to the positions of local minima in the LCP array,
+2. *positional cluster detecting*, according to the positions of local minima in the LCP array,
 
-3. noise reduction and quality score smoothing, 
+3. *noise reduction and quality score smoothing*, 
 
-4. FASTQ reconstruction and compression.
+4. *FASTQ reconstruction and compression*.
 
 Given a FASTQ file containing a collection *S* of reads,...
 
-We present implementations in both internal memory and external memory, which largely differ in steps 2,4.
+We present implementations in both internal memory and external memory, which mainly differ in steps 2,4.
 Indeed, step 1 can be performed by any tool according to the resources available. For example, [gsufsort](https://github.com/felipelouza/gsufsort) runs in internal memory, while [egap](https://github.com/felipelouza/egap) and [BCR](https://github.com/giovannarosone/BCR_LCP_GSA) run in external memory.
 
 Both implementations of step 2 need the ebwt(*S*) (EBWT output string) and qs(*S*) (its associated permutation of quality scores), while the external memory version needs in addition the LCP array, lcp(*S*). 
@@ -32,8 +32,7 @@ make
 
 ## Run
 
-Given in input 
-We propose three different modes to compress FASTQ files by using two well-known compressors: PPMd [https://www.7-zip.org/7z.html] and BSC [http://libbsc.com/].
+We propose three different modes to compress FASTQ files by using two well-known compressors: [PPMd](https://www.7-zip.org/7z.html) and [BSC](http://libbsc.com/).
 
 
 
