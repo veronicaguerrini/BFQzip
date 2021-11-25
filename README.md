@@ -15,7 +15,7 @@ The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and t
 Given a FASTQ file containing a collection *S* of reads,...
 
 We present implementations in both internal memory and external memory, which mainly differ in steps 2,4.
-Indeed, step 1 can be performed by any tool according to the resources available. For example, [gsufsort](https://github.com/felipelouza/gsufsort) runs in internal memory, while [egap](https://github.com/felipelouza/egap) and [BCR](https://github.com/giovannarosone/BCR_LCP_GSA) run in external memory.
+Step 1 can be performed by any tool according to the resources available. For example, [gsufsort](https://github.com/felipelouza/gsufsort) runs in internal memory, while [egap](https://github.com/felipelouza/egap) and [BCR](https://github.com/giovannarosone/BCR_LCP_GSA) run in external memory.
 
 Both implementations of step 2 need the ebwt(*S*) (EBWT output string) and qs(*S*) (its associated permutation of quality scores), while the external memory version needs in addition the LCP array, lcp(*S*). 
 The internal memory approach represents ebwt(*S*) via the compressed suffix tree described in [Prezza and Rosone, 2021](https://doi.org/10.1016/j.tcs.2020.11.024), where the lcp(*S*) is deduced from the ebwt(*S*). 
