@@ -15,13 +15,13 @@ The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and t
 Given as input a FASTQ file containing a collection *S* of reads, in step 1 we build the ebwt(*S*) (EBWT output string) and the string qs(*S*), which is the concatenation of quality scores associated with the symbols appearing in the ebwt(*S*). In step 2, we exploit the positional clustering framework to detect blocks in the ebwt(*S*), and thus in qs(*S*).
 In step 3, these blocks allow us not only to smooth their quality scores, but also the corresponding bases, replacing those that are believed to be noise introduced during the sequencing process. In step 4, we use the LF mapping on the ebwt(*S*) to output a new (modified) FASTQ file and compress it by using state-of-the-art compressors. 
 
-We present implementations in both internal memory and external memory, which mainly differ in steps 2,4.
+We present implementations in both **internal memory** and **external memory**.
 
 Note that Step 1 can be performed by any tool according to the resources available. For example, [gsufsort](https://github.com/felipelouza/gsufsort) runs in internal memory, while [egap](https://github.com/felipelouza/egap) and [BCR](https://github.com/giovannarosone/BCR_LCP_GSA) run in external memory.
 
 Both implementations of step 2 need the ebwt(*S*) and qs(*S*), while the external memory version needs in addition the LCP array lcp(*S*). 
 Indeed, the internal memory approach represents ebwt(*S*) via the compressed suffix tree described in [Prezza and Rosone, 2021](https://doi.org/10.1016/j.tcs.2020.11.024), where the lcp(*S*) is deduced from the ebwt(*S*). 
-While during the FASTQ reconstruction of step 4, the LF-mapping is implemented either in internal memory (via suffix-tree navigation) or in external memory.
+During the FASTQ reconstruction of step 4, the LF-mapping is implemented either in internal memory (via suffix-tree navigation) or in external memory.
 
 ## Install
 
