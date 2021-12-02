@@ -33,7 +33,7 @@ def main():
     parser.add_argument('-o','--out', help='output base name (def. input base name)', default="", type=str)  
     parser.add_argument('-T','--mcl', help='minimum context length', default="", type=str)
     parser.add_argument('-Q','--rv',  help='constant replacement value', default="", type=str)
-    parser.add_argument('--rebuild',  help='force call step 1', action='store_true',default=True)
+    parser.add_argument('--rebuild',  help='force call step 1', action='store_true',default=False)
     parser.add_argument('--original', help='do not call step 3',action='store_true')
     parser.add_argument('-1', '--m1', help='mode 1: FASTQ', action='store_true',default=True)
     parser.add_argument('-2', '--m2', help='mode 2: DNA+QS', action='store_true')
