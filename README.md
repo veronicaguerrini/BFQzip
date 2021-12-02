@@ -103,16 +103,16 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
 
 #### EBWT
     
-    Sabrina Mantaci, Antonio Restivo, Giovanna Rosone, Marinella Sciortino, An extension of the Burrows-Wheeler Transform. 
-    Theoretical Computer Science (2007) 387(3): 298-312.
-    doi: [10.1016/j.tcs.2007.07.014][1]
+> Sabrina Mantaci, Antonio Restivo, Giovanna Rosone, Marinella Sciortino, 
+> An extension of the Burrows-Wheeler Transform. 
+> Theoretical Computer Science (2007) 387(3): 298-312.
+> doi: [10.1016/j.tcs.2007.07.014](https://doi.org/10.1016/j.tcs.2007.07.014)
     
     Markus J. Bauer, Anthony J. Cox, Giovanna Rosone, Lightweight algorithms for constructing and inverting the BWT of string collections. 
     Theoretical Computer Science (2013) 483: 134-148.
     doi: [10.1016/j.tcs.2012.02.002][2]
     
-    
-[1]: <https://doi.org/10.1016/j.tcs.2007.07.014>
+
 [2]: https://doi.org/10.1016/j.tcs.2012.02.002
     
 #### Quality score permutation
