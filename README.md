@@ -4,11 +4,11 @@ We propose the first **lossy** **reference-free** and **assembly-free** compress
 
 The strategy is based on the Extended Burrows-Wheeler Transform (**EBWT**) and the **positional clustering** framework, and it can be summarized in four main steps:
 
-1. *data structures building*, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
+1. *Data structures building*, for which one could use any state-of-the art tool that computes both the EBWT and its associated permutation of quality scores,
 
-2. *positional cluster detecting*, according to the positions of local minima in the LCP array,
+2. *Positional cluster detecting*, according to the positions of local minima in the LCP array,
 
-3. *noise reduction and quality score smoothing*, 
+3. *Noise reduction and quality score smoothing*, 
 
 4. *FASTQ reconstruction* and *Compression*.
 
@@ -18,7 +18,6 @@ In step 3, these blocks allow us not only to smooth their quality scores, but al
 We present implementations in both **internal memory** and **external memory**.
 
 Note that Step 1 can be performed by any tool according to the resources available. For example, [gsufsort](https://github.com/felipelouza/gsufsort) runs in internal memory, while [egap](https://github.com/felipelouza/egap) and [BCR](https://github.com/giovannarosone/BCR_LCP_GSA) run in external memory.
-
 Both implementations of step 2 need the ebwt(*S*) and qs(*S*), while the external memory version needs in addition the LCP array lcp(*S*). 
 Indeed, the internal memory approach represents ebwt(*S*) via the compressed suffix tree described in [Prezza and Rosone, 2021](https://doi.org/10.1016/j.tcs.2020.11.024), where the lcp(*S*) is deduced from the ebwt(*S*). 
 During the FASTQ reconstruction of step 4, the LF-mapping is implemented either in internal memory (via suffix-tree navigation) or in external memory.
@@ -35,18 +34,23 @@ make
 
 We propose three different modes to compress FASTQ files by using two well-known compressors: [PPMd](https://www.7-zip.org/7z.html) and [BSC](http://libbsc.com/).
 
+Mode 1 (option *-1* or *--m1*) consists in compressing the whole FASTQ file reconstructed (bases and quality scores components are interleaved as in the FASTQ format). Note that we are not interested in compressing the headers component, for which one can use any state-of-the-art strategy that tokenizes it. Nevertheless, to report the original headers component in the FASTQ file reconstructed, please use option *--headers*.
 
+Mode 2 (option *-2* or *--m2*) consists in compressing the bases and the quality scores components separately. 
 
+Mode 3 (option *-3* or *--m3*) consists in compressing the bases, the quality scores, and the headers components separately.
 
-Given a string collection in FASTQ format (e.g. example/reads.fastq), to run BFQzip in internal memory
+Then, given a string collection in FASTQ format (e.g. example/reads.fastq), to compress all its components separately, run BFQzip
+
+- in internal memory 
 
 ```sh
-python3 BFQzip.py example/reads.fastq -o output_reads
+python3 BFQzip.py example/reads.fastq -o output_reads --m3
 ```
-while to run BFQzip in external memory
+-or, in external memory
 
 ```sh
-python3 BFQzip_ext.py example/reads.fastq -o output_reads
+python3 BFQzip_ext.py example/reads.fastq -o output_reads --m3
 ```
 
 #### References:
