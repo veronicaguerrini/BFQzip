@@ -33,7 +33,8 @@ make
 
 We propose three different modes to compress FASTQ files by using two well-known compressors: [PPMd](https://www.7-zip.org/7z.html) and [BSC](http://libbsc.com/).
 
-Mode 1 (option *-1* or *--m1*) consists in compressing the whole FASTQ file reconstructed (bases and quality scores components are interleaved as in the FASTQ format). Note that we are not interested in compressing the headers component, for which one can use any state-of-the-art strategy that tokenizes it. Nevertheless, to report the original headers component in the FASTQ file reconstructed, please use option *--headers*.
+Mode 1 (option *-1* or *--m1*) consists in compressing the whole FASTQ file reconstructed (bases and quality scores components are interleaved as in the FASTQ format). Note that we are not interested in compressing the headers component, for which one may use state-of-the-art strategies that tokenize it. 
+Nevertheless, to report the original headers component in the FASTQ file reconstructed, please use option *--headers*.
 
 Mode 2 (option *-2* or *--m2*) consists in compressing the bases and the quality scores components separately. 
 
@@ -54,7 +55,7 @@ python3 BFQzip_ext.py example/reads.fastq -o output_reads --m3
 
 #### Quality score smoothing
 
-In any positional cluster, the value *Q* used for replacements can be computed with different strategies:
+In any positional cluster, the value *Q* used for smoothing quality scores can be computed with different strategies:
 
 (**M=0**) *Q* is the maximum quality score in that cluster, or 
 
@@ -65,7 +66,8 @@ In any positional cluster, the value *Q* used for replacements can be computed w
 (**M=3**) *Q* is the average of the quality scores in that cluster.
 
 Apart from strategy (M=2), the value *Q* depends on the cluster analyzed. Thus, the default strategy is (M=2).
-To apply a different strategy, BFQzip must be compiled with a different value for the parameter M. For example, to apply strategy (ii) 
+
+To apply a different strategy, BFQzip must be compiled with a different value for the parameter M. For instance, to use strategy (M=1) 
 
 ```sh
 make clean
@@ -73,7 +75,8 @@ make M=1
 ```
 
 An additional feature to compress further the quality scores is the possibility of reducing their alphabet size. 
-By using BFQzip, one can choose to apply the Illumina 8-level binning simply by compiling with B=1.
+By using BFQzip, one can choose to apply the Illumina 8-level binning in addition to any of the stategy above. 
+Simply compile by setting B=1.
 
 ```sh
 make clean
@@ -110,16 +113,14 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
     Theoretical Computer Science (2013) 483: 134-148,
     doi: 10.1016/j.tcs.2012.02.002
     
-    
-#### QS permutation
+#### Quality score permutation
     
     Lilian Janin, Giovanna Rosone, and Anthony J. Cox: 
     Adaptive reference-free compression of sequence quality scores. 
     Bioinformatics (2014) 30 (1): 24-30, 
     doi: 10.1093/bioinformatics/btt257
     
-    
-#### Positional Clustering
+#### Positional clustering
     
     Nicola Prezza, Nadia Pisanti, Marinella Sciortino, Giovanna Rosone,
     SNPs detection by eBWT positional clustering,
@@ -130,7 +131,6 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
     Variable-order reference-free variant discovery with the Burrows-Wheeler Transform.
     BMC Bioinformatics (2020) 21,
     doi: 10.1186/s12859-020-03586-3
-    
     
 #### BFQzip
     
