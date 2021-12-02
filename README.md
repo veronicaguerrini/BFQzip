@@ -104,23 +104,31 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
 #### EBWT
     
     Sabrina Mantaci, Antonio Restivo, Giovanna Rosone, Marinella Sciortino, An extension of the Burrows-Wheeler Transform. Theoretical Computer Science (2007) 387(3): 298-312,
-    doi: [10.1016/j.tcs.2007.07.014](https://doi.org/10.1016/j.tcs.2007.07.014)
+    doi: [10.1016/j.tcs.2007.07.014][1]
     
     Markus J. Bauer, Anthony J. Cox, Giovanna Rosone, Lightweight algorithms for constructing and inverting the BWT of string collections. Theoretical Computer Science (2013) 483: 134-148,
-    doi: [10.1016/j.tcs.2012.02.002](https://doi.org/10.1016/j.tcs.2012.02.002)
+    doi: [10.1016/j.tcs.2012.02.002][2]
+    
+    [1]: https://doi.org/10.1016/j.tcs.2007.07.014
+    [2]: https://doi.org/10.1016/j.tcs.2012.02.002
     
 #### Quality score permutation
     
     Lilian Janin, Giovanna Rosone, and Anthony J. Cox, Adaptive reference-free compression of sequence quality scores. Bioinformatics (2014) 30 (1): 24-30, 
-    doi: [10.1093/bioinformatics/btt257](https://doi.org/10.1093/bioinformatics/btt257)
+    doi: [10.1093/bioinformatics/btt257][3]
+    
+    [3]: https://doi.org/10.1093/bioinformatics/btt257
     
 #### Positional clustering
     
     Nicola Prezza, Nadia Pisanti, Marinella Sciortino, Giovanna Rosone, SNPs detection by eBWT positional clustering, Algorithms for Molecular Biology (2019) 14(1):3,
-    doi: [10.1186/s13015-019-0137-8](https://doi.org/10.1186/s13015-019-0137-8)
+    doi: [10.1186/s13015-019-0137-8][4]
     
     Nicola Prezza, Nadia Pisanti, Marinella Sciortino, Giovanna Rosone, Variable-order reference-free variant discovery with the Burrows-Wheeler Transform. BMC Bioinformatics (2020) 21,
-    doi: [10.1186/s12859-020-03586-3](https://doi.org/10.1186/s12859-020-03586-3)
+    doi: [10.1186/s12859-020-03586-3][5]
+    
+    [4]: https://doi.org/10.1186/s13015-019-0137-8
+    [5]: https://doi.org/10.1186/s12859-020-03586-3
     
 #### BFQzip
     
