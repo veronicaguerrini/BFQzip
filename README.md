@@ -47,7 +47,7 @@ Then, given a string collection in FASTQ format (e.g. example/reads.fastq), to c
 ```sh
 python3 BFQzip.py example/reads.fastq -o output_reads --m3
 ```
--or, in external memory
+- or, in external memory
 
 ```sh
 python3 BFQzip_ext.py example/reads.fastq -o output_reads --m3
