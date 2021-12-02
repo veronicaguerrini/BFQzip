@@ -52,9 +52,9 @@ python3 BFQzip.py example/reads.fastq -o output_reads --m3
 ```sh
 python3 BFQzip_ext.py example/reads.fastq -o output_reads --m3
 ```
-## Example Usage of BFQzip
+#### Quality score smoothing
 
-#### References:
+## References
 
     *** EBWT
     
