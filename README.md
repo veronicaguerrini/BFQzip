@@ -30,7 +30,7 @@ cd BFQzip
 make
 ```
 
-## Run
+## Usage
 
 We propose three different modes to compress FASTQ files by using two well-known compressors: [PPMd](https://www.7-zip.org/7z.html) and [BSC](http://libbsc.com/).
 
@@ -52,6 +52,7 @@ python3 BFQzip.py example/reads.fastq -o output_reads --m3
 ```sh
 python3 BFQzip_ext.py example/reads.fastq -o output_reads --m3
 ```
+## Example Usage of BFQzip
 
 #### References:
 
