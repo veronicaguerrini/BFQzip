@@ -44,7 +44,7 @@ def main():
     parser.add_argument('-3', '--m3', help='mode 3: DNA+QS+H', action='store_true')
     parser.add_argument('--headers',  help='include the headers', action='store_true', default=False)
     parser.add_argument('-m', '--mem', help='use at most M MBs', default=0, type=int)
-    parser.add_argument('-c', '--check', help='Check if the FASTQ is valid', action='store_true', default=False)
+    parser.add_argument('-c', '--check', help='Check if the FASTQ is valid', action='store_true', default=True)
     parser.add_argument('-v',         help='verbose: extra info in the log file',action='store_true')
     args = parser.parse_args()
     # ---- check number of input files and define basename
