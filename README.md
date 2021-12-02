@@ -112,7 +112,7 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
     doi: [10.1016/j.tcs.2012.02.002][2]
     
     
-[1]: https://doi.org/10.1016/j.tcs.2007.07.014
+[1]: <https://doi.org/10.1016/j.tcs.2007.07.014>
 [2]: https://doi.org/10.1016/j.tcs.2012.02.002
     
 #### Quality score permutation
