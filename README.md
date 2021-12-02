@@ -56,10 +56,13 @@ python3 BFQzip_ext.py example/reads.fastq -o output_reads --m3
 
 In any positional cluster, the value *Q* used for replacements can be computed with different strategies:
 
-**M=0** *Q* is the maximum quality score in that cluster, or 
-**M=1** *Q* is the quality score associated with the mean probability error in that cluster, or 
-**M=2** *Q* is a default value, or 
-**M=3** *Q* is the average of the quality scores in that cluster.
+(**M=0**) *Q* is the maximum quality score in that cluster, or 
+
+(**M=1**) *Q* is the quality score associated with the mean probability error in that cluster, or 
+
+(**M=2**) *Q* is a default value, or 
+
+(**M=3**) *Q* is the average of the quality scores in that cluster.
 
 Apart from strategy (M=2), the value *Q* depends on the cluster analyzed. Thus, the default strategy is (M=2).
 To apply a different strategy, BFQzip must be compiled with a different value for the parameter M. For example, to apply strategy (ii) 
@@ -80,13 +83,14 @@ make B=1
 #### Validation
 
 To measure the impact of such a lossy FASTQ compression on downstream analysis, one could evaluate the genotyping accuracy by using [GATK](https://gatk.broadinstitute.org/hc/en-us) and [RTG Tools](https://github.com/RealTimeGenomics/rtg-tools).
-The SNP calling pipeline ``./variant_calling/pipeline_SNPsCall.sh`` performs according to GATK best practices. Taking as input a paired-end collection, it outputs a .vcf file. 
+
+The SNP calling pipeline ``./variant_calling/pipeline_SNPsCall.sh`` performs according to GATK best practices. Taking as input a paired-end collection, it outputs a `.vcf` file. 
 
 ```sh
 ./variant_calling/pipeline_SNPsCall.sh output_reads_1.fq output_reads_2.fq
 ```
 
-Running the pipeline for both the original FASTQ files and the modified FASTQ files, one obtains two different .vcf files that could be compared by standard tools, such as `rtg vcfeval` command, which evaluates called variants for agreement with a baseline variant set.
+Running the pipeline for both the original FASTQ files and the modified FASTQ files, one obtains two different `.vcf` files that could be compared by standard tools, such as `rtg vcfeval` command, which evaluates called variants for agreement with a baseline variant set.
 
 ```sh
 rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluation-regions=BED_FILE --vcf-score-field=STRING
@@ -94,7 +98,7 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
 
 ## References
 
-    *** EBWT
+#### EBWT
     
     Sabrina Mantaci, Antonio Restivo, Giovanna Rosone, Marinella Sciortino,
     An extension of the Burrows-Wheeler Transform.
@@ -107,7 +111,7 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
     doi: 10.1016/j.tcs.2012.02.002
     
     
-    *** QS permutation
+#### QS permutation
     
     Lilian Janin, Giovanna Rosone, and Anthony J. Cox: 
     Adaptive reference-free compression of sequence quality scores. 
@@ -115,7 +119,7 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
     doi: 10.1093/bioinformatics/btt257
     
     
-    *** Positional Clustering
+#### Positional Clustering
     
     Nicola Prezza, Nadia Pisanti, Marinella Sciortino, Giovanna Rosone,
     SNPs detection by eBWT positional clustering,
@@ -128,8 +132,7 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
     doi: 10.1186/s12859-020-03586-3
     
     
-    
-    *** BFQzip
+#### BFQzip
     
     Veronica Guerrini, Felipe A. Louza, Giovanna Rosone,
     Lossy Compressor preserving variant calling through Extended BWT
