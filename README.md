@@ -125,7 +125,7 @@ rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluat
 #### BFQzip
     
 > Veronica Guerrini, Felipe A. Louza, Giovanna Rosone, Lossy Compressor Preserving Variant Calling through Extended BWT. In
-> *Proceedings of the 15th International Joint Conference on Biomedical Engineering Systems and Technologies* (2022) Volume 3: BIOINFORMATICS, pages 38-48.
+> *Proceedings of the 15th International Joint Conference on Biomedical Engineering Systems and Technologies* (2022) Volume 3(BIOINFORMATICS): 38-48, doi:[10.5220/0000156300003123](https://doi.org/10.5220/0000156300003123).
 
 ---
 <small> Supported by the project Italian MIUR-SIR [CMACBioSeq][240fb5f5] ("_Combinatorial methods for analysis and compression of biological sequences_") grant n.~RBSI146R5L. P.I. Giovanna Rosone</small>
