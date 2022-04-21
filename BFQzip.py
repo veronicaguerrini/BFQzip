@@ -21,6 +21,7 @@ qs_split = "sed -n 4~4p"
 dna_split = "sed -n 2~4p"
 zip7_exe = "7z a -mm=PPMd"
 bsc_exe = "external/libbsc/bsc"
+spring_reorder_exe = "external/SPRING/build/spring-reorder"
 
 smooth_exe = "src_int_mem/bfq_int"
 
@@ -39,11 +40,13 @@ def main():
     parser.add_argument('-2', '--m2', help='mode 2: DNA+QS', action='store_true')
     parser.add_argument('-3', '--m3', help='mode 3: DNA+QS+H', action='store_true')
     parser.add_argument('--headers',  help='include the headers', action='store_true', default=False)
+    parser.add_argument('--reorder',  help='reorder reads (SPRING)', action='store_true', default=False)
     parser.add_argument('-c', '--check', help='Check if the FASTQ is valid', action='store_true', default=True)
     parser.add_argument('-v',         help='verbose: extra info in the log file',action='store_true')
     args = parser.parse_args()
     # ---- check number of input files and define basename
     check_input(args)
+    define_basename(args)
     # ---- create and open log file
     logfile_name = args.basename + ".log"
     # get main directory
@@ -71,6 +74,9 @@ def main():
 
         show_command_line(logfile)
         logfile.flush()
+
+        if(args.reorder):
+            spring_reorder(args, logfile, logfile_name)
 
         if len(args.out)==0 : args.out=args.input[0]
 
@@ -253,18 +259,34 @@ def step5b(args, logfile, logfile_name):
         args.output2.append(ofile)
     return True
 
+def spring_reorder(args, logfile, logfile_name):
+    print("=== SPRING (reorder-only) ===", file=logfile); logfile.flush()
+    ##
+    exe = spring_reorder_exe
+    ifile = args.input[0]
+    filename, file_extension = os.path.splitext(ifile)
+    ofile = filename+".reordered"+file_extension
+    command = "{exe} -i {ifile} -o {ofile}".format(exe=exe, ifile=ifile, ofile=ofile)
+    print("=== SPRING (reorder-only) ===")
+    print(command)
+    os.system(command)
+    args.input[0] = ofile
+    define_basename(args)
+    return True
+
 ########
 
 # check correctness of number of input file and define basename for output
 def check_input(args):
-
     if args.check:
         print("=== checking FASTQ ==="); 
         if checker.checkFASTQ(args.input[0]):
             print("Valid FASTQ file!")
         else:
             print("Invalid FASTQ file!")
+    return True
             
+def define_basename(args):
     if len(args.out)==0:
         args.basename = args.input[0]
     elif args.out[-1]=="/": 
