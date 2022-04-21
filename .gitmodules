@@ -7,3 +7,7 @@
 [submodule "external/libbsc"]
 	path = external/libbsc
 	url = https://github.com/IlyaGrebnov/libbsc
+[submodule "external/SPRING"]
+	path = external/SPRING
+	url = https://github.com/shubhamchandak94/Spring.git
+	branch = reorder-only

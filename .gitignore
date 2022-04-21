@@ -32,5 +32,12 @@
 *.app
 fastqcompression
 fastqcompression-test
+src_ext_mem/bfq_ext
+src_int_mem/bfq_int
 
 *.swp
+
+external/libbsc
+external/egap
+external/SPRING
+

@@ -16,6 +16,7 @@ all:
 	make -C external/gsufsort/ TERMINATOR=0 DNA=1 
 	make -C external/egap/
 	make -C external/libbsc/
+	bash external/install-spring.sh
 
 clean:
 	make clean -C src_ext_mem 
