@@ -269,7 +269,7 @@ def spring_reorder(args, logfile, logfile_name):
     command = "{exe} -i {ifile} -o {ofile}".format(exe=exe, ifile=ifile, ofile=ofile)
     print("=== SPRING (reorder-only) ===")
     print(command)
-    os.system(command)
+    execute_command(command, logfile, logfile_name)
     args.input[0] = ofile
     define_basename(args)
     return True

@@ -10,13 +10,17 @@ B = 0
 ##M=3 avg
 M = 2
 
+SPRING = 0
+
 all: 
 	make -C src_ext_mem B=$(B) M=$(M)
 	make -C src_int_mem B=$(B) M=$(M)
 	make -C external/gsufsort/ TERMINATOR=0 DNA=1 
 	make -C external/egap/
 	make -C external/libbsc/
+ifeq ($(SPRING), 1)
 	bash external/install-spring.sh
+endif
 
 clean:
 	make clean -C src_ext_mem 
