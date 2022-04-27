@@ -76,7 +76,10 @@ def main():
         logfile.flush()
 
         if(args.reorder):
-            spring_reorder(args, logfile, logfile_name)
+            if(spring_reorder(args, logfile, logfile_name)==False):
+                print("=== ERROR ===")
+                print("./spring-reorder not installed (run make SPRING=1)")
+                return False
 
         if len(args.out)==0 : args.out=args.input[0]
 
@@ -260,6 +263,8 @@ def step5b(args, logfile, logfile_name):
     return True
 
 def spring_reorder(args, logfile, logfile_name):
+    if(not os.path.exists(spring_reorder_exe)):
+        return False
     print("=== SPRING (reorder-only) ===", file=logfile); logfile.flush()
     ##
     exe = spring_reorder_exe

@@ -41,3 +41,7 @@ external/libbsc
 external/egap
 external/SPRING
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+
