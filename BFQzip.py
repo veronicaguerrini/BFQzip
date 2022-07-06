@@ -39,10 +39,11 @@ def main():
     parser.add_argument('-1', '--m1', help='mode 1: FASTQ', action='store_true',default=True)
     parser.add_argument('-2', '--m2', help='mode 2: DNA+QS', action='store_true')
     parser.add_argument('-3', '--m3', help='mode 3: DNA+QS+H', action='store_true')
+    parser.add_argument('-0', '--m0', help='mode 0: do not compress', action='store_true')
     parser.add_argument('--headers',  help='include the headers', action='store_true', default=False)
     parser.add_argument('--reorder',  help='reorder reads (SPRING)', action='store_true', default=False)
-    parser.add_argument('-c', '--check', help='Check if the FASTQ is valid', action='store_true', default=True)
-    parser.add_argument('-v',         help='verbose: extra info in the log file',action='store_true')
+    parser.add_argument('-c', '--check', help='Check if the FASTQ is valid', action='store_true', default=False)
+    parser.add_argument('-v',         help='verbose: extra info in the log file', default=0, type=int)
     args = parser.parse_args()
     # ---- check number of input files and define basename
     check_input(args)
@@ -93,6 +94,7 @@ def main():
                  os.path.exists(args.out+qs_ext);
            
         if(args.rebuild or not exists):
+            if(args.v == 2): print("## STEP 1 ##")
             start = time.time()
             if(step1(args, logfile, logfile_name)!=True):
                 sys.exit(1)
@@ -105,6 +107,7 @@ def main():
         
         if(args.headers and not exists):
             #--- step2: extract headers
+            if(args.v == 2): print("## STEP 2 ##")
             start = time.time()
             if(step2(args, logfile, logfile_name)!=True):
                 sys.exit(1)
@@ -112,53 +115,61 @@ def main():
               
         #--- step3: smooth BWT and QS sequences 
         start = time.time()
+        if(args.v == 2): print("## STEP 3 ##")
         if(step3(args, logfile, logfile_name)!=True):
             sys.exit(1)
         print("Elapsed time: {0:.4f}".format(time.time()-start))
 
         #--- step4: compute DNA+QS
         if(args.m2 or args.m3):
+            if(args.v == 2): print("## STEP 4 ##")
             start = time.time()
             if(step4(args, logfile, logfile_name)!=True):
                 sys.exit(1)
             print("Elapsed time: {0:.4f}".format(time.time()-start))
 
 
-        args.output = []
-        args.output2 = []
-        
-        #--- step5: compress
-        start = time.time()
-        if(step5(args, logfile, logfile_name)!=True):
-            sys.exit(1)
-        if(step5b(args, logfile, logfile_name)!=True):
-            sys.exit(1)
-        print("Elapsed time: {0:.4f}".format(time.time()-start))
+        if(not args.m0):#call compressors
 
-        #---- final report
-        insize = os.path.getsize(args.input[0])
+            args.output = []
+            args.output2 = []
+            
+            #--- step5: compress
+            if(args.v == 2): print("## STEP 5 ##")
+            start = time.time()
+            print("--- Step 5 ---", file=logfile); logfile.flush()
+            if(step5(args, logfile, logfile_name)!=True):
+                sys.exit(1)
+            if(step5b(args, logfile, logfile_name)!=True):
+                sys.exit(1)
+            print("Elapsed time: {0:.4f}".format(time.time()-start))
 
-        print("=== results ==="); 
-        print("Original:\t{0:.2f} MB".format(insize/(1024*1024)))
-        if(args.v): print(args.input[0])
-        print("== PPMd ==")
-        outsize = 0
-        for f in args.output:
-            outsize += os.path.getsize(f)
-        print("Compressed:\t{0:.2f} MB".format(outsize/(1024*1024)))
-        print("Ratio = {0:.2f}".format(outsize/insize))
-        if(args.v):
-            for f in args.output:
-               print(f) 
-        print("== BSC ==")
-        outsize = 0
-        for f in args.output2:
-           outsize += os.path.getsize(f)
-        print("Compressed:\t{0:.2f} MB".format(outsize/(1024*1024)))
-        print("Ratio = {0:.2f}".format(outsize/insize))
-        if(args.v):
-           for f in args.output_b:
-              print(f) 
+            #---- final report
+            if(args.v):
+                insize = os.path.getsize(args.input[0])
+
+                print("=== results ==="); 
+                print("Original:\t{0:.2f} MB".format(insize/(1024*1024)))
+                if(args.v == 2):
+                    print(args.input[0])
+                print("== PPMd ==")
+                outsize = 0
+                for f in args.output:
+                    outsize += os.path.getsize(f)
+                print("Compressed:\t{0:.2f} MB".format(outsize/(1024*1024)))
+                print("Ratio = {0:.2f}".format(outsize/insize))
+                if(args.v == 2):
+                    for f in args.output:
+                       print(f) 
+                print("== BSC ==")
+                outsize = 0
+                for f in args.output2:
+                   outsize += os.path.getsize(f)
+                print("Compressed:\t{0:.2f} MB".format(outsize/(1024*1024)))
+                print("Ratio = {0:.2f}".format(outsize/insize))
+                if(args.v == 2):
+                   for f in args.output2:
+                      print(f) 
 
     return True
 
@@ -240,7 +251,7 @@ def step4(args, logfile, logfile_name):
     return True
 
 def step5(args, logfile, logfile_name):
-    print("--- Step 5 ---", file=logfile); logfile.flush()
+    print("--- PPMd ---", file=logfile); logfile.flush()
     exe = zip7_exe
     print("=== PPMd ===")
     for f in args.stream:
@@ -254,6 +265,7 @@ def step5(args, logfile, logfile_name):
 def step5b(args, logfile, logfile_name):
     print("=== BSC ===", file=logfile); logfile.flush()
     exe = bsc_exe
+    print("=== BSC ===")
     for f in args.stream:
         ofile = f+".bsc"
         command = "{exe} e {ifile} {ofile} -T".format(exe=exe, ifile=f, ofile=ofile)
