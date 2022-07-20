@@ -729,13 +729,13 @@ dataTypeNChar process_cluster(FILE *InBWT, FILE *InQS, dataTypedimAlpha currentP
             
             for(dataTypeNChar j = 0; j < len; ++j){
                 if(bwt[j] == FreqSymb[0]){
-		    if(LF_cluster[j]!=TERM){
+		    if(LF_cluster[j]!=TERM && LF_cluster[j]!='N'){
 			freq_0[ord(LF_cluster[j])]=1; //ord: A->0,C->1,G->2,T->3,N->4
 			symbPrec_0=LF_cluster[j];
 		    }
 		}
                 if(bwt[j] == FreqSymb[1]){
-		    if(LF_cluster[j]!=TERM){
+		    if(LF_cluster[j]!=TERM && LF_cluster[j]!='N'){
 			freq_1[ord(LF_cluster[j])]=1; //ord: A->0,C->1,G->2,T->3,N->4
 			symbPrec_1=LF_cluster[j];
 		    }
