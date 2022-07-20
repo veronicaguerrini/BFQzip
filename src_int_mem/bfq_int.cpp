@@ -541,14 +541,14 @@ uint64_t process_cluster(uint64_t begin, uint64_t i){
 	     for(uint64_t j = start; j <= end; ++j){
 			 if(bwt[j] == FreqSymb[0]){
 				 c=bwt[bwt.LF(j)]; //bwt[bwt.LF(j)] can be TERM
-				 if(c!=TERM){
+				 if(c!=TERM && c!='N'){
 					freqs_[0][ord(bwt[bwt.LF(j)])]=1; //ord: A->0,C->1,G->2,T->3,N->4
 					symbPrec_[0]=c;
 				 }
 			 }
 			 else if(bwt[j] == FreqSymb[1]){
 				 c=bwt[bwt.LF(j)]; //bwt[bwt.LF(j)] can be TERM
-				 if(c!=TERM){
+				 if(c!=TERM && c!='N'){
 					freqs_[1][ord(bwt[bwt.LF(j)])]=1; //ord: A->0,C->1,G->2,T->3,N->4
 					symbPrec_[1]=c;
 				 }
@@ -723,6 +723,7 @@ void run(){
   //print clusters statistics (i.e. number of bases that fall inside each cluster of a fixed size)
   #if DEBUG
     uint64_t scale = *max_element(&CLUST_SIZES[0], &CLUST_SIZES[MAX_CLUST_LEN]+1);
+	if(scale==0) scale=1;
     for(int i=0;i<=MAX_CLUST_LEN;++i){
       cout << i << ( i < 10 ? "   " : (i<100 ? "  " : " "));
       for(uint64_t j = 0; j < (100*CLUST_SIZES[i])/scale; ++j) cout << "-";
