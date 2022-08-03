@@ -28,6 +28,7 @@ def main():
     parser.add_argument('-o','--out', help='output base name (def. input base name)', default="", type=str)  
     parser.add_argument('-T','--mcl', help='minimum context length', default="", type=str)
     parser.add_argument('-Q','--rv',  help='constant replacement value', default="", type=str)
+    parser.add_argument('-H', '--headers', help='store original headers', action='store_true')
     parser.add_argument('-0', '--m0', help='mode 0: do not compress', action='store_true')
     parser.add_argument('-p', '--paired', help='paired end mode', action='store_true')
     parser.add_argument('-t','--threads',  help='multithreading', default=0, type=int)
@@ -88,7 +89,9 @@ def main():
         ####
         threads = list()
 
-        options = "--rebuild --headers -0 -v 0"
+        options = "--rebuild -0 -v 0"
+        if args.headers:
+            options+=" --headers"
         if args.check:
             options+=" --check"
         if len(args.mcl)>0:
@@ -121,7 +124,8 @@ def main():
             os.remove(filename)
             os.remove(filename+".bwt")
             os.remove(filename+".bwt.qs")
-            os.remove(filename+".h")
+            if args.headers:
+                os.remove(filename+".h")
             os.remove(filename+".log")
             print(i[0], i[1], file=logfile)
 
@@ -166,9 +170,8 @@ def main():
                     with open(ofile[1], 'a') as f_out:
                         for line in f_in:
                             f_out.write(line)
-           
         else:
-            cmd = "cat "+files[0]+"> "+ofile[0]
+            cmd = "cat "+files+"> "+ofile[0]
             print(cmd)
             start = time.time()
             os.system(cmd)
