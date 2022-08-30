@@ -109,13 +109,13 @@ The parallel version slightly reduces the compression ratio as the number of thr
 To run BFQzip parallel with *n* threads
 
 ```sh
-python3 BFQzip_parallel.py example/reads.fastq -o output_reads -t thr
+python3 BFQzip_parallel.py example/reads.fastq -o output_reads -t n
 ```
 
 BFQzip parallel paired-end mode allows to exploit the pairing information of paired-end datasets. Please, use the parameter -p for the paired-end mode.
 
 ```sh
-python3 BFQzip_parallel.py example/reads_1.fastq example/reads_2.fastq -p -o output_reads -t thr
+python3 BFQzip_parallel.py example/reads_1.fastq example/reads_2.fastq -p -o output_reads -t n
 ```
 
 ## References
