@@ -99,6 +99,25 @@ Running the pipeline for both the original FASTQ files and the modified FASTQ fi
 rtg vcfeval --baseline=VCF --calls=VCF --output=DIR --template=REF_SDF --evaluation-regions=BED_FILE --vcf-score-field=STRING
 ```
 
+#### Parallel strategy
+
+Our parallel strategy splits the input FASTQ file into *n* blocks (*n* being the number of threads) and processes them in parallel with BFQzip.py. 
+The resulting blocks with the modified bases and smoothed qualities are merged (in order) and then compressed with [PPMd](https://www.7-zip.org/7z.html) and [BSC](http://libbsc.com/).
+
+The parallel version slightly reduces the compression ratio as the number of threads increases while preserving performance on variants calling and showing better resource usage than the sequential (1 thread) version.
+
+To run BFQzip parallel with *n* threads
+
+```sh
+python3 BFQzip_parallel.py example/reads.fastq -o output_reads -t thr
+```
+
+BFQzip parallel paired-end mode allows to exploit the pairing information of paired-end datasets. Please, use the parameter -p for the paired-end mode.
+
+```sh
+python3 BFQzip_parallel.py example/reads_1.fastq example/reads_2.fastq -p -o output_reads -t thr
+```
+
 ## References
 
 #### EBWT
