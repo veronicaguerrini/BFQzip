@@ -156,8 +156,7 @@ python3 BFQzip_parallel.py example/reads.fastq -o output_reads -t n --reorder 2
 > Veronica Guerrini, Felipe A. Louza, Giovanna Rosone, Parallel lossy compression for large FASTQ files. In: Roque, A.C.A., et al. Biomedical Engineering Systems and Technologies. Springer Book series *Communications in Computer and Information Science* (2023) 1814, doi: [10.1007/978-3-031-38854-5_6](https://doi.org/10.1007/978-3-031-38854-5_6)
 
 --
+
 <small> Supported by the project Italian MIUR-SIR [CMACBioSeq][240fb5f5] ("_Combinatorial methods for analysis and compression of biological sequences_") grant n.~RBSI146R5L. P.I. Giovanna Rosone</small>
 
 [240fb5f5]: http://pages.di.unipi.it/rosone/CMACBioSeq.html
-
-<small> Supported by the University of Pisa under the "_PRA – Progetti di Ricerca di Ateneo_" (Institutional Research Grants) - Project no. PRA 2020-2021 "_Metodi Informatici Integrati per la Biomedica_".</small>
