@@ -153,7 +153,7 @@ python3 BFQzip_parallel.py example/reads.fastq -o output_reads -t n --reorder 2
 > Veronica Guerrini, Felipe A. Louza, Giovanna Rosone, Lossy Compressor Preserving Variant Calling through Extended BWT. In
 > *Proceedings of the 15th International Joint Conference on Biomedical Engineering Systems and Technologies* (2022) Volume 3(BIOINFORMATICS): 38-48, doi:[10.5220/0010834100003123](https://doi.org/10.5220/0010834100003123).
 > 
-> Veronica Guerrini, Felipe A. Louza, Giovanna Rosone, Parallel lossy compression for large FASTQ files. In: Roque, A.C.A., et al. Biomedical Engineering Systems and Technologies. BIOSTEC 2022. *Springer Communications in Computer and Information Science* (2023) 1814, doi: [10.1007/978-3-031-38854-5_6](https://doi.org/10.1007/978-3-031-38854-5_6)
+> Veronica Guerrini, Felipe A. Louza, Giovanna Rosone, Parallel lossy compression for large FASTQ files. In: Roque, A.C.A., et al. Biomedical Engineering Systems and Technologies. Springer Book series *Communications in Computer and Information Science* (2023) 1814, doi: [10.1007/978-3-031-38854-5_6](https://doi.org/10.1007/978-3-031-38854-5_6)
 
 --
 <small> Supported by the project Italian MIUR-SIR [CMACBioSeq][240fb5f5] ("_Combinatorial methods for analysis and compression of biological sequences_") grant n.~RBSI146R5L. P.I. Giovanna Rosone</small>
