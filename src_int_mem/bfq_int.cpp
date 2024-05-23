@@ -12,6 +12,10 @@
 #include <sstream>
 #include <unordered_map>
 #include <cstring>
+#include <cstdint>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include "../external/bwt2lcp/include.hpp"
 #include "../external/bwt2lcp/dna_string_n.hpp"
 #include "../external/bwt2lcp/dna_bwt_n.hpp"
@@ -75,8 +79,8 @@ char default_value_def = '>';   //QS = 29
 char default_value = '\0';
 
 //quality threshold
-int quality_threshold_def = 20; 
-int quality_threshold = -1; 
+int quality_threshold_def = 20;
+int quality_threshold = -1;
 
 //threshold for frequent bases in clusters
 float freq_threshold_def = 40.0;
@@ -113,14 +117,14 @@ void help(){
     "-e <arg>    Input eBWT file (A,C,G,T,#) of DNA (REQUIRED)." << endl <<
     "-q <arg>    Qualities permuted according to the DNA's ebwt (REQUIRED)." << endl <<
     "-o <arg>    Output fastq (REQUIRED)." << endl <<
-	"-k <arg>    Minimum LCP required in clusters. Default: " << K_def << "." << endl <<
+    "-k <arg>    Minimum LCP required in clusters. Default: " << K_def << "." << endl <<
     "-m <arg>    Minimum length of cluster to be processed. Default: " << m_def << "." << endl <<
     "-v <arg>    Quality score for constant replacement (if M=2). Default: " << (int)default_value_def-33 << "." << endl <<
-	"-f <arg>    Percentage threshold for frequent bases in clusters. Default: " << freq_threshold_def << "." << endl <<
-	"-t <arg>    Quality score threshold for trusted bases. Default: " << quality_threshold_def << "." << endl <<
+    "-f <arg>    Percentage threshold for frequent bases in clusters. Default: " << freq_threshold_def << "." << endl <<
+    "-t <arg>    Quality score threshold for trusted bases. Default: " << quality_threshold_def << "." << endl <<
     "-s <arg>    ASCII value of terminator character. Default: " << int('#') << " (#)." << endl <<
-    "-H <arg>    List of original headers." << endl << 
-	"-D          Print debug info for each BWT position." << endl << endl <<
+    "-H <arg>    List of original headers." << endl <<
+    "-D          Print debug info for each BWT position." << endl << endl <<
     
     "\nTo run bfq_int, you must first build the extended Burrows-Wheeler Transform " <<
     "of the input DNA sequences and the corresponding permutation of base quality scores." << endl;
@@ -134,7 +138,7 @@ void help(){
 
 void update_LCP_leaf(sa_leaf L, uint64_t & lcp_values){
     
-  for(uint64_t i = L.rn.first+1; i<L.rn.second; ++i){ 
+  for(uint64_t i = L.rn.first+1; i<L.rn.second; ++i){
     LCP_threshold[i] = (L.depth >= K);
     lcp_values++;
   }
@@ -220,7 +224,7 @@ void detect_minima(){
       if(perc_lcp > last_perc_lcp){
         #if DEBUG
           if(verbose) cout << "LCP: " << perc_lcp << "%." <<  endl;
-        #endif  
+        #endif
         last_perc_lcp = perc_lcp;
       }
     }
@@ -323,10 +327,10 @@ int avg_qs(uint64_t start, uint64_t end){
   
   for(uint64_t j=start; j<=end; j++){
   
-  	if(bwt[j] != TERM){
-  		sum=sum+(int)QUAL[j];
-  		num++;
-  	}
+      if(bwt[j] != TERM){
+          sum=sum+(int)QUAL[j];
+          num++;
+      }
   }
 
   if(sum==0) return 0;
@@ -384,18 +388,18 @@ void modBasesSmoothQS(uint64_t begin, uint64_t end, char newSymb, char newqs){
                 modified++;
             }
             else if(bwt[j] == newSymb){
-				QUAL[j] = newqs;
-				qs_smoothed++;
-			}
-			else //(bwt[j] != newSymb) and (lowQS[ord(bwt[j])]==1)
-			{	
-				if (newqs < QUAL[j])//only high quality scores are smoothed
-				{
-					QUAL[j] = newqs;    
-					qs_smoothed++;
-				} 
-				
-			}
+                QUAL[j] = newqs;
+                qs_smoothed++;
+            }
+            else //(bwt[j] != newSymb) and (lowQS[ord(bwt[j])]==1)
+            {
+                if (newqs < QUAL[j])//only high quality scores are smoothed
+                {
+                    QUAL[j] = newqs;
+                    qs_smoothed++;
+                }
+                
+            }
         }
     }//end-for
 }
@@ -426,8 +430,8 @@ uint64_t process_cluster(uint64_t begin, uint64_t i){
 
   uint64_t base_num = 0;//number of bases inside cluster
   for(int i=0; i<5; i++){
-	freqs[i]=0;
-	lowQS[i]=0;
+    freqs[i]=0;
+    lowQS[i]=0;
   }
   
   for(uint64_t j = start; j <= end; ++j){
@@ -436,23 +440,23 @@ uint64_t process_cluster(uint64_t begin, uint64_t i){
       freqs[ord(bwt[j])]++;
       base_num++;
 
-	  if(QUAL[j] >= quality_threshold + 33)
-		lowQS[ord(bwt[j])]=1;
+      if(QUAL[j] >= quality_threshold + 33)
+        lowQS[ord(bwt[j])]=1;
     }
     #if DEBUG
       if(verbose) cout << bwt[j] << "\t" << (int)QUAL[j]-33 << endl;
     #endif
   }
   
-	num_clust++;
-	
+    num_clust++;
+    
   if(base_num == 0) return size;
-	
-	bases_inside+=base_num;
-	
+    
+    bases_inside+=base_num;
+    
   /*
-  max_qs finds the highest qs in the cluster, 
-  mean_error finds the mean of error rates, 
+  max_qs finds the highest qs in the cluster,
+  mean_error finds the mean of error rates,
   avg_qs finds the average qs in the cluster
   */
   #if M==0
@@ -478,147 +482,147 @@ uint64_t process_cluster(uint64_t begin, uint64_t i){
      if(verbose) cout << "Symbol\t perc" << endl;
   #endif
 
-	unsigned char nnn = 0;
-	
+    unsigned char nnn = 0;
+    
   for(int i=0; i<5; i++){
       if(freqs[i]>0){
-		  nnn++;
+          nnn++;
          unsigned char perc = (100*freqs[i])/(base_num); //integer division
          #if DEBUG
              if(verbose) cout << dna(i) << "\t" << (int)perc << endl;
-		#endif
+        #endif
          if( perc >= freq_threshold )
             FreqSymb.push_back(dna(i));
      }
   }
   if(nnn==1)
-		num_clust_alleq++;
+        num_clust_alleq++;
   #if DEBUG
-      if(verbose) cout << "FreqSymb.size: " << FreqSymb.size() << "\tbase_num: " << base_num << endl;	
+      if(verbose) cout << "FreqSymb.size: " << FreqSymb.size() << "\tbase_num: " << base_num << endl;
   #endif
 
   //We expect  to  have  no  more  than  two  frequent  symbols  in  any  cluster
   assert(FreqSymb.size() < 3 );
-	
+    
   /* Noise reduction and QS smoothing */
   if (FreqSymb.size() == 0)
-  { //--> no information to modify bases 
-	num_clust_discarded++;
+  { //--> no information to modify bases
+    num_clust_discarded++;
   }
   else if(FreqSymb.size()==1)
-  {    //There is a unique most frequent symbol --> modify bases according to it 
-     if( (FreqSymb[0] == 'N') ) //it is 'N' 
-		num_clust_discarded++;
+  {    //There is a unique most frequent symbol --> modify bases according to it
+     if( (FreqSymb[0] == 'N') ) //it is 'N'
+        num_clust_discarded++;
      else{
-		  modBasesSmoothQS(start,end,FreqSymb[0],newqs);
-	 }
+          modBasesSmoothQS(start,end,FreqSymb[0],newqs);
+     }
   }
   else if(base_num < m)
-  {    //There are less than 5 bases in the cluster and FreqSymb.size() == 2 
-		num_clust_discarded++;
+  {    //There are less than 5 bases in the cluster and FreqSymb.size() == 2
+        num_clust_discarded++;
   }
   else
   {  //FreqSymb.size() == 2 && base_num >= m
-	
-	//one of them is 'N' --> modify according to the other
+    
+    //one of them is 'N' --> modify according to the other
         if (FreqSymb[0] == 'N') {
             //FreqSymb[1] cannot be TERM neither 'N'
             modBasesSmoothQS(start,end,FreqSymb[1],newqs);
-			num_clust_mod++;
+            num_clust_mod++;
         }
         else if (FreqSymb[1] == 'N'){
             //FreqSymb[0] cannot be TERM neither 'N'
             modBasesSmoothQS(start,end,FreqSymb[0],newqs);
-			num_clust_mod++;
+            num_clust_mod++;
         }
         else //(FreqSymb[0] != TERM) and (FreqSymb[0] != 'N') and (FreqSymb[1] != TERM) and (FreqSymb[1] != 'N')
-        {  
-	     //perform modification according to the two most frequent bases
-	     //find the symbols preceding FreqSymb[0] (resp. FreqSymb[1])
-	     char c, symbPrec_[2];
-	     char freqs_[2][6]{0};
+        {
+         //perform modification according to the two most frequent bases
+         //find the symbols preceding FreqSymb[0] (resp. FreqSymb[1])
+         char c, symbPrec_[2];
+         char freqs_[2][6]{0};
 
-	     for(uint64_t j = start; j <= end; ++j){
-			 if(bwt[j] == FreqSymb[0]){
-				 c=bwt[bwt.LF(j)]; //bwt[bwt.LF(j)] can be TERM
-				 if(c!=TERM && c!='N'){
-					freqs_[0][ord(bwt[bwt.LF(j)])]=1; //ord: A->0,C->1,G->2,T->3,N->4
-					symbPrec_[0]=c;
-				 }
-			 }
-			 else if(bwt[j] == FreqSymb[1]){
-				 c=bwt[bwt.LF(j)]; //bwt[bwt.LF(j)] can be TERM
-				 if(c!=TERM && c!='N'){
-					freqs_[1][ord(bwt[bwt.LF(j)])]=1; //ord: A->0,C->1,G->2,T->3,N->4
-					symbPrec_[1]=c;
-				 }
-			 }
-	     }   
-	
-		 for(int i=0;i<4;i++){ //no Ns symbols are candidates
-			freqs_[0][5]+=freqs_[0][i];
-			freqs_[1][5]+=freqs_[1][i]; //freqs_[1][5]=sum_i freqs_[1][i]
-		 }
-		  
-		 //Modify the cluster only if both predominant symbols are precedeed by a unique DIFFERENT dna symbol
-		 if(freqs_[0][5]==1 && freqs_[1][5]==1 && symbPrec_[0] != symbPrec_[1]){
-			
-			num_clust_mod++;
-			
-			for(uint64_t j = start; j <= end; ++j){
-				if(bwt[j] != TERM){
-					if ( bwt[j]!= FreqSymb[0] and bwt[j]!= FreqSymb[1] and lowQS[ord(bwt[j])]==0)
-					{
-						//Check if symbol preceding bwt[j] is equal either to symbPrec_0 or to symbPrec_1
-						c=bwt[bwt.LF(j)];
-						if(c==symbPrec_[0]){
-						   #if DEBUG
-							if(verbose) cout << "j: " << j << "\tBWT: " << bwt[j] << "\tBWT_MOD: " << FreqSymb[0] << endl;
-						   #endif
-						   rankbv_setbit(rbv,j);
-						   BWT_MOD.push_back(FreqSymb[0]);
-						   modified++;
-						 }
-						 else if(c==symbPrec_[1]){
-						   #if DEBUG
-						    if(verbose) cout << "j: " << j << "\tBWT: " << bwt[j] << "\tBWT_MOD: " << FreqSymb[1] << endl;
-						   #endif
-						   rankbv_setbit(rbv,j);
-						   BWT_MOD.push_back(FreqSymb[1]);
-						   modified++;
-						 }
-			     
-					}//end-if modify bases
-					else if(bwt[j]== FreqSymb[0] or bwt[j]== FreqSymb[1]){
-						QUAL[j] = newqs;
-						qs_smoothed++;
-					}
-					else{
-						if(newqs < QUAL[j]){
-							QUAL[j] = newqs;
-							qs_smoothed++;
-						}
-					}
+         for(uint64_t j = start; j <= end; ++j){
+             if(bwt[j] == FreqSymb[0]){
+                 c=bwt[bwt.LF(j)]; //bwt[bwt.LF(j)] can be TERM
+                 if(c!=TERM && c!='N'){
+                    freqs_[0][ord(bwt[bwt.LF(j)])]=1; //ord: A->0,C->1,G->2,T->3,N->4
+                    symbPrec_[0]=c;
+                 }
+             }
+             else if(bwt[j] == FreqSymb[1]){
+                 c=bwt[bwt.LF(j)]; //bwt[bwt.LF(j)] can be TERM
+                 if(c!=TERM && c!='N'){
+                    freqs_[1][ord(bwt[bwt.LF(j)])]=1; //ord: A->0,C->1,G->2,T->3,N->4
+                    symbPrec_[1]=c;
+                 }
+             }
+         }
+    
+         for(int i=0;i<4;i++){ //no Ns symbols are candidates
+            freqs_[0][5]+=freqs_[0][i];
+            freqs_[1][5]+=freqs_[1][i]; //freqs_[1][5]=sum_i freqs_[1][i]
+         }
+          
+         //Modify the cluster only if both predominant symbols are precedeed by a unique DIFFERENT dna symbol
+         if(freqs_[0][5]==1 && freqs_[1][5]==1 && symbPrec_[0] != symbPrec_[1]){
+            
+            num_clust_mod++;
+            
+            for(uint64_t j = start; j <= end; ++j){
+                if(bwt[j] != TERM){
+                    if ( bwt[j]!= FreqSymb[0] and bwt[j]!= FreqSymb[1] and lowQS[ord(bwt[j])]==0)
+                    {
+                        //Check if symbol preceding bwt[j] is equal either to symbPrec_0 or to symbPrec_1
+                        c=bwt[bwt.LF(j)];
+                        if(c==symbPrec_[0]){
+                           #if DEBUG
+                            if(verbose) cout << "j: " << j << "\tBWT: " << bwt[j] << "\tBWT_MOD: " << FreqSymb[0] << endl;
+                           #endif
+                           rankbv_setbit(rbv,j);
+                           BWT_MOD.push_back(FreqSymb[0]);
+                           modified++;
+                         }
+                         else if(c==symbPrec_[1]){
+                           #if DEBUG
+                            if(verbose) cout << "j: " << j << "\tBWT: " << bwt[j] << "\tBWT_MOD: " << FreqSymb[1] << endl;
+                           #endif
+                           rankbv_setbit(rbv,j);
+                           BWT_MOD.push_back(FreqSymb[1]);
+                           modified++;
+                         }
+                 
+                    }//end-if modify bases
+                    else if(bwt[j]== FreqSymb[0] or bwt[j]== FreqSymb[1]){
+                        QUAL[j] = newqs;
+                        qs_smoothed++;
+                    }
+                    else{
+                        if(newqs < QUAL[j]){
+                            QUAL[j] = newqs;
+                            qs_smoothed++;
+                        }
+                    }
 
-				}//end-if (bwt[j] != TERM)
+                }//end-if (bwt[j] != TERM)
 
-			}//end-for
+            }//end-for
 
-		 }
-	     else
-	     {  //--> no information to modify
-			num_clust_amb_discarded++;
-		 }
+         }
+         else
+         {  //--> no information to modify
+            num_clust_amb_discarded++;
+         }
 
-		 
-		}//end else
-	
+         
+        }//end else
+    
     }//end if-else FreqSymb.size() == 2 && base_num >= 5
-	
-	FreqSymb.clear();
-	FreqSymb.shrink_to_fit();
-	
-	return size;
+    
+    FreqSymb.clear();
+    FreqSymb.shrink_to_fit();
+    
+    return size;
 }
 
 /*
@@ -630,37 +634,37 @@ uint64_t process_cluster(uint64_t begin, uint64_t i){
  * PROCEDURE run NAVIGATES suffix tree, and computes LCP minima, EXECUTES process_cluster for each detected cluster.
  */
 void run(){
-  
-	uint64_t n = bwt.size();
-  
-	QUAL = (char*) malloc (sizeof(char)*n);
-	
-	//read base qualities (permuted according to the BWT) into QUAL
-	FILE *f_qual;
-	
-	f_qual = fopen(input_qual.c_str(), "r");
-  	if(!f_qual) perror("run");
- 
-	uint64_t m = fread(QUAL,sizeof(char),n,f_qual);
-	assert(m == n);
-	
-	fclose(f_qual);
-  
+
+    uint64_t n = bwt.size();
+
+    QUAL = (char*) malloc (sizeof(char)*n);
+
+    //read base qualities (permuted according to the BWT) into QUAL
+    FILE *f_qual;
+
+    f_qual = fopen(input_qual.c_str(), "r");
+      if(!f_qual) perror("run");
+
+    uint64_t m = fread(QUAL,sizeof(char),n,f_qual);
+    assert(m == n);
+
+    fclose(f_qual);
+
     #if DEBUG
         for(uint64_t i=0; i<n; i++) statistics_qual_before[QUAL[i]]++;
     #endif
 
-	/**/
-	//fprintf(stdout, "##\nmalloc_count ### INSIDE RUN current peak: %'zu\n##\n", malloc_count_peak_curr());
-	/**/
-	
-	//Set bitvector to modify BWT symbols
-	{
-		rbv = rankbv_create(n,2);
-	}	
-  
+    /**/
+    //fprintf(stdout, "##\nmalloc_count ### INSIDE RUN current peak: %'zu\n##\n", malloc_count_peak_curr());
+    /**/
+
+    //Set bitvector to modify BWT symbols
+    {
+        rbv = rankbv_create(n,2);
+    }
+
   uint64_t begin = 0;//begin position
-  
+
   uint64_t clust_len=0;
   bool cluster_open=false;
 
@@ -669,28 +673,29 @@ void run(){
   num_clust_amb_discarded = 0;
   num_clust_mod = 0;
   num_clust_alleq = 0;
-  
+
   #if DEBUG
     //used only to compute and visualize cluster statistics
     uint64_t MAX_CLUST_LEN = 200;
     //auto CLUST_SIZES = vector<uint64_t>(MAX_CLUST_LEN+1,0);
-    uint64_t CLUST_SIZES[MAX_CLUST_LEN+1]{0};
+    uint64_t CLUST_SIZES[MAX_CLUST_LEN+1];
+    std::fill(CLUST_SIZES, CLUST_SIZES + MAX_CLUST_LEN + 1, 0);
   #endif
-  
+
   //procedure that identifies clusters by looking at LCP_threshold and LCP_minima
   for(uint64_t i=0;i<n;++i){
-      
+
     if(LCP_threshold[i] and not LCP_minima[i]){
-          
+
       if(not cluster_open){//open new cluster
         cluster_open=true;
         begin=i;
       }
-          
+
     }else{
-          
+
         if(cluster_open){//close current cluster
-		  clust_len = process_cluster(begin, i);//position i included
+          clust_len = process_cluster(begin, i);//position i included
           #if DEBUG
             if(clust_len<=MAX_CLUST_LEN) CLUST_SIZES[clust_len]++;
           #endif
@@ -700,12 +705,12 @@ void run(){
   }
 
   if(cluster_open){//close last cluster
-	clust_len = process_cluster(begin, n);//position i included
+    clust_len = process_cluster(begin, n);//position i included
      #if DEBUG
       if(clust_len<=MAX_CLUST_LEN) CLUST_SIZES[clust_len]++;
      #endif
   }
-	
+    
 
   rankbv_build(rbv);
   
@@ -715,15 +720,15 @@ void run(){
   LCP_minima.shrink_to_fit();
   LCP_threshold.clear();
   LCP_threshold.shrink_to_fit();
-	
-	/**/
-	//fprintf(stdout, "##\nmalloc_count ### INSIDE RUN current peak: %'zu\n##\n", malloc_count_peak_curr());
-	/**/
-	
+    
+    /**/
+    //fprintf(stdout, "##\nmalloc_count ### INSIDE RUN current peak: %'zu\n##\n", malloc_count_peak_curr());
+    /**/
+    
   //print clusters statistics (i.e. number of bases that fall inside each cluster of a fixed size)
   #if DEBUG
     uint64_t scale = *max_element(&CLUST_SIZES[0], &CLUST_SIZES[MAX_CLUST_LEN]+1);
-	if(scale==0) scale=1;
+    if(scale==0) scale=1;
     for(int i=0;i<=MAX_CLUST_LEN;++i){
       cout << i << ( i < 10 ? "   " : (i<100 ? "  " : " "));
       for(uint64_t j = 0; j < (100*CLUST_SIZES[i])/scale; ++j) cout << "-";
@@ -742,33 +747,33 @@ void run(){
  * If the input file consisted of reads and their reverse, we must define the behaviour.
  */
 void invert(){
-	
-	FILE *f_in;
-	if(not ignore_headers){
-		f_in= fopen(input_titles.c_str(), "r");
-		if(!f_in) perror("invert");
-	}
-	FILE *f_out = fopen(output.c_str(), "w");
-	if(!f_out) perror("invert");
-	
-	char header[]="@\n";
-	char plus[]="+\n";
-	size_t len = 0;
+    
+    FILE *f_in;
+    if(not ignore_headers){
+        f_in= fopen(input_titles.c_str(), "r");
+        if(!f_in) perror("invert");
+    }
+    FILE *f_out = fopen(output.c_str(), "w");
+    if(!f_out) perror("invert");
+    
+    char header[]="@\n";
+    char plus[]="+\n";
+    size_t len = 0;
 
-	char BASES[LONGEST]{0};
-	char QS[LONGEST]{0};
+    char BASES[LONGEST]{0};
+    char QS[LONGEST]{0};
 
-	BASES[LONGEST-1] = '\n';
-	QS[LONGEST-1] = '\n';
+    BASES[LONGEST-1] = '\n';
+    QS[LONGEST-1] = '\n';
 
 
-	//number of reads in the file
-	uint64_t N = bwt.get_number_of_strings();
+    //number of reads in the file
+    uint64_t N = bwt.get_number_of_strings();
   
-	string line;
+    string line;
   
 
-	for(uint64_t i = 0;i < N;++i){//for each read 
+    for(uint64_t i = 0;i < N;++i){//for each read
       
       int nbases = LONGEST-1;
       uint64_t j = i;//bwt[j] = current read character
@@ -808,9 +813,9 @@ void invert(){
       free(buf);
     }
 
-	if(not ignore_headers)
-		fclose(f_in);
-	fclose(f_out);
+    if(not ignore_headers)
+        fclose(f_in);
+    fclose(f_out);
 
 }
 /*
@@ -835,22 +840,22 @@ void print_info(){
     for(uint64_t i = 0;i < N;++i){//for each read (if RC=true, only first half of reads)
         int x=0;
         {
-			uint64_t j = i + x*(N/2);
-			uint64_t off=0;//offset from the end of the read
-			
-			while(bwt[j] != TERM){
-			  read_info[j] = read_ids[i].substr(0,max_id_len);
-			  read_info[j].append(string("\t"));
-			  read_info[j].append(to_string(off));
-			  j = bwt.LF(j);
-			  off++;
-			}
-		}
+            uint64_t j = i + x*(N/2);
+            uint64_t off=0;//offset from the end of the read
+            
+            while(bwt[j] != TERM){
+              read_info[j] = read_ids[i].substr(0,max_id_len);
+              read_info[j].append(string("\t"));
+              read_info[j].append(to_string(off));
+              j = bwt.LF(j);
+              off++;
+            }
+        }
     }
     
     cout << "ID\tposition\toriginal\tmodified\tmodified.quality\tLCP>=K\tminimum?" << endl;
     for(uint64_t i=0;i<bwt.size();++i){
-		cout << read_info[i] << "\t" << bwt[i] << "\t" << QUAL[i] << "\t" << (LCP_threshold[i]?"+\t":"\t") << (LCP_minima[i]?"*":"") << endl;
+        cout << read_info[i] << "\t" << bwt[i] << "\t" << QUAL[i] << "\t" << (LCP_threshold[i]?"+\t":"\t") << (LCP_minima[i]?"*":"") << endl;
     }
       
   }
@@ -899,10 +904,10 @@ int main(int argc, char** argv){
       case 'v':
         default_value = atoi(optarg);
         break;
-	  case 'f':
+      case 'f':
         freq_threshold = atoi(optarg);
         break;
-	  case 't':
+      case 't':
         quality_threshold = atoi(optarg);
         break;
       case 's':
@@ -911,11 +916,11 @@ int main(int argc, char** argv){
       case 'D':
         debug=true;
         break;
-	  case 'V':
+      case 'V':
         verbose=true;
         break;
       case 'H':
-	    input_titles = string(optarg);
+        input_titles = string(optarg);
         ignore_headers=false;
         break;
       default:
@@ -980,8 +985,8 @@ int main(int argc, char** argv){
     /**/
     fprintf(stdout, "##\nmalloc_count ### current peak: %'zu\n##\n", malloc_count_peak_curr());
     /**/
-	
-  //start procedure run		
+    
+  //start procedure run
   cout << "\nPhase 4/5: process clusters ... " << endl;
   run();
   cout << "done." << endl;
@@ -1007,7 +1012,7 @@ int main(int argc, char** argv){
   
   cout << "**** Quality statistics ****" << endl;
   cout << qs_smoothed << "/" << bwt.size() - N << " qualities have been modified (" << 100*double(qs_smoothed)/(bwt.size()-N) << "% of all qs and " <<
-		100*double(qs_smoothed)/bases_inside << "% of qs inside clusters)." << endl;
+        100*double(qs_smoothed)/bases_inside << "% of qs inside clusters)." << endl;
   cout << "***********************" << endl << endl;
   
   cout << "**** Bases statistics ****" << endl;
@@ -1020,32 +1025,32 @@ int main(int argc, char** argv){
      //uint64_t sum_tot = 0;
      //for(auto x : statistics_qual_before) sum_tot+=x;
 
-	uint64_t sum = 0;
+    uint64_t sum = 0;
 
     for(int i=32; i<127;++i){
-		if(statistics_qual_before[i]>0){
-			sum += statistics_qual_before[i];
-			cout << (char)i << "\t" << statistics_qual_before[i] << "\t" << 100*(double(statistics_qual_before[i]))/(bwt.size() - N) << endl;
-		}
+        if(statistics_qual_before[i]>0){
+            sum += statistics_qual_before[i];
+            cout << (char)i << "\t" << statistics_qual_before[i] << "\t" << 100*(double(statistics_qual_before[i]))/(bwt.size() - N) << endl;
+        }
     }
     cout << endl;
 
-	cout << "sum: " << sum << endl;
-	sum = 0;
-	 
-	cout << "Distribution of base qualities after: " << endl;
+    cout << "sum: " << sum << endl;
+    sum = 0;
+     
+    cout << "Distribution of base qualities after: " << endl;
 
-	for(int i=32;i<127;++i){
-		if(statistics_qual_after[i]>0){
-			sum += statistics_qual_after[i];
-			cout << (char)i << "\t" << statistics_qual_after[i] << "\t" << 100*(double(statistics_qual_after[i]))/(bwt.size() - N) << endl;
-		}
-	}
+    for(int i=32;i<127;++i){
+        if(statistics_qual_after[i]>0){
+            sum += statistics_qual_after[i];
+            cout << (char)i << "\t" << statistics_qual_after[i] << "\t" << 100*(double(statistics_qual_after[i]))/(bwt.size() - N) << endl;
+        }
+    }
 
     cout << endl;
-		
-	cout << "sum: " << sum << endl;
-	
+        
+    cout << "sum: " << sum << endl;
+    
   #endif
 
 
