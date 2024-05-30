@@ -12,6 +12,10 @@
 #include <sstream>
 #include <unordered_map>
 #include <cstring>
+#include <cstdint>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include "../external/bwt2lcp/include.hpp"
 #include "../external/bwt2lcp/dna_string_n.hpp"
 #include "../external/bwt2lcp/dna_bwt_n.hpp"
